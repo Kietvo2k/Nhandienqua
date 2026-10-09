@@ -1,0 +1,120 @@
+# Danh mục dataset public. Mỗi mục: nguồn, license, dùng cho model nào.
+# source: kaggle (tải công khai, không cần token) | hf (Hugging Face, liệt kê file cần tải)
+# use: detect | quality | cutout (cắt quả để ghép ảnh tổng hợp) | background | drying
+# Tra cứu ngày 2026-10-08. Mendeley Data lỗi 500/502 lúc tra → dùng bản mirror Kaggle/HF.
+
+datasets:
+  # ---------- Phát hiện (bbox) ----------
+  - name: kg_fruits10_yolo
+    source: kaggle
+    ref: afsananadia/fruits-images-dataset-object-detection
+    license: CC0-1.0
+    use: detect
+    note: 10 loại quả Bangladesh, nhãn YOLO, có mít, xoài, chuối.
+
+  - name: kg_fruits_by_yolo
+    source: kaggle
+    ref: kapturovalexander/fruits-by-yolo-fruits-detection
+    license: CC-BY-4.0
+    use: detect
+    note: Bản Kaggle của Roboflow "Fruits by YOLO" (chuối, xoài, ...).
+
+  - name: kg_lakshay_fruits
+    source: kaggle
+    ref: lakshaytyagi01/fruit-detection
+    license: CC0-1.0
+    use: detect
+
+  - name: kg_lvis_fruits_veg
+    source: kaggle
+    ref: henningheyen/lvis-fruits-and-vegetables-dataset
+    license: MIT (ảnh gốc COCO/LVIS — CC BY 4.0 theo từng ảnh Flickr)
+    use: detect
+    note: Nhãn YOLO lấy từ LVIS; kỳ vọng có banana, mango, sweet_potato.
+
+  # ---------- Ảnh cắt để ghép băng chuyền ----------
+  - name: hf_fruitseg30
+    source: hf
+    ref: Project-AgML/fruitseg30_segmentation
+    files: [data/train-00000-of-00001.parquet]
+    license: CC-BY-4.0
+    use: cutout
+    note: 1.969 ảnh có mask; xoài (~270), thanh long (96), chuối (82).
+
+  - name: kg_conveyor_blueberry
+    source: kaggle
+    ref: josembm/industrial-fruit-defect-detection-conveyor-belt
+    license: CC0-1.0
+    use: background
+    note: Ảnh băng chuyền công nghiệp (việt quất) — làm nền + vật gây nhiễu.
+
+  # ---------- Chất lượng (tốt / hư) ----------
+  - name: kg_mango_disease
+    source: kaggle
+    ref: anilsandhii/mango-fruit-disease
+    license: CC0-1.0
+    use: quality
+    note: Bản dẫn xuất MangoFruitDDS (Alternaria, Anthracnose, Black Mould Rot, Stem end Rot, Healthy).
+
+  - name: hf_dragonfruit_quality
+    source: hf
+    ref: Project-AgML/dragonfruit_quality_classification
+    files: [raw/train-00000-of-00001.parquet]
+    license: CC-BY-4.0
+    use: quality
+    note: Mendeley 2jpzbx8tm6 — Fresh / Defect.
+
+  - name: kg_dragonfruit_vn
+    source: kaggle
+    ref: nguynphancminh/dragonfruitdataset-qma
+    license: Apache-2.0
+    use: quality
+    note: Bệnh lá + quả thanh long (tác giả Việt Nam).
+
+  - name: hf_banana_guava_quality
+    source: hf
+    ref: Project-AgML/banana_guava_quality_classification
+    files: [data/train-00000-of-00001.parquet]
+    license: CC-BY-4.0
+    use: quality
+    note: Chuối Class_A / Class_B / Defect.
+
+  - name: kg_jackfruit_shapes
+    source: kaggle
+    ref: sridhargutam/jackfruit-fruit-shapes
+    license: CC0-1.0
+    use: quality
+    note: Mít perfect (753) / deformed (222) / malformed (43); 1/4 ảnh là HEIC (cần pillow-heif).
+
+  - name: gh_sweet_potato_defect
+    source: url
+    ref: https://codeload.github.com/aipal-nchu/sweet_potato_defect_dataset/zip/refs/heads/main
+    license: Apache-2.0
+    use: quality
+    note: Khoai lang 4 lỗi (thối, chuột cắn, sâu, nứt), ảnh 6000x4000 trên bảng LED + ảnh nhãn màu (normal=cyan) → cắt được cả củ.
+
+  - name: hf_fruits360
+    source: hf
+    ref: PedroSampaio/fruits-360
+    files:
+      - data/train-00000-of-00001-086dc013443c484c.parquet
+      - data/test-00000-of-00001-0d294abe3826b2e6.parquet
+    license: CC-BY-SA-4.0 (Fruits-360 gốc; HF ghi MIT)
+    use: quality
+    note: Ảnh 100x100 nền trắng — khoai lang "tốt" (Potato Sweet) + xoài/chuối/thanh long (Pitahaya Red) để ghép ảnh.
+
+  - name: kg_kritik_sweetpotato
+    source: kaggle
+    ref: kritikseth/fruit-and-vegetable-image-recognition
+    extract_filter: /sweetpotato/
+    license: CC0-1.0
+    use: quality
+    note: Gói 2,1 GB nhưng chỉ giải nén lớp sweetpotato (~89 ảnh web) để tăng đa dạng khoai lang lành.
+
+  # ---------- Mức sấy ----------
+  - name: kg_mango_dried
+    source: kaggle
+    ref: luftmensch2409/mango-dried-dataset
+    license: CC-BY-4.0 (Roboflow mango-detection-pcesz v3)
+    use: drying
+    note: 3.629 ảnh bbox "xoai-say" (xoài sấy), CHƯA có nhãn mức sấy.

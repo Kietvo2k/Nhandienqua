@@ -1,0 +1,27 @@
+# Lớp chuẩn của dự án. Thứ tự trong `detect` là chỉ số lớp YOLO — KHÔNG đổi thứ tự sau khi đã train.
+detect:
+  - mango
+  - banana
+  - dragon_fruit
+  - jackfruit
+  - sweet_potato
+
+# Model chất lượng: một model phân loại chung, tên lớp "<quả>__<nhãn>".
+# Lúc suy luận chỉ xét các lớp có tiền tố là loại quả mà detector đã báo.
+quality_labels: [good, defect]
+
+# Model mức sấy (sau lò sấy).
+drying_labels: [under, ok, over]
+
+# Tên hiển thị tiếng Việt
+vi:
+  mango: Xoài
+  banana: Chuối
+  dragon_fruit: Thanh long
+  jackfruit: Mít
+  sweet_potato: Khoai lang
+  good: Tốt
+  defect: Hư/bệnh
+  under: Chưa đạt
+  ok: Đạt
+  over: Quá khô

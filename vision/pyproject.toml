@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nhandienqua"
+version = "0.1.0"
+description = "Phát hiện quả (YOLO26) + phân loại tốt/hư + mức sấy, chạy được trên Jetson Orin Nano"
+requires-python = ">=3.10"
+dependencies = [
+  "ultralytics>=8.4",
+  "opencv-python",
+  "numpy",
+  "pyyaml",
+  "requests",
+  "tqdm",
+  "pyarrow",
+  "lap>=0.5.12",  # ByteTrack (chế độ video) — Ultralytics không tự cài vì YOLO_AUTOINSTALL=false
+]
+
+[project.optional-dependencies]
+dev = ["pytest"]
+onnx = ["onnx", "onnxslim", "onnxruntime-gpu"]
+
+[project.scripts]
+nhandienqua = "nhandienqua.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["nhandienqua*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = [".", "scripts"]

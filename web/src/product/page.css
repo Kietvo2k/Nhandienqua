@@ -1,0 +1,24 @@
+body.product-mode { background: #f6f3ec; color: #2b2418; overflow: auto; }
+body.product-mode #gl, body.product-mode dialog { display: none; }
+body.product-mode #app { display: block; height: auto; }
+.pp { max-width: 640px; margin: 0 auto; padding: 20px 16px 40px; font: 15px/1.5 "Segoe UI", system-ui, sans-serif; }
+.pp h1 { font-size: 24px; margin: 2px 0 4px; }
+.pp h2 { font-size: 13px; letter-spacing: .05em; text-transform: uppercase; color: #8a7652; margin: 0 0 10px; }
+.pp-head { display: flex; gap: 16px; align-items: center; margin-bottom: 16px; }
+.pp-fig { margin: 0; width: 120px; flex: none; }
+.pp-kicker { margin: 0; color: #8a7652; font-size: 13px; }
+.pp-mono, .pp-dl dd.mono, .pp-steps time { font-family: "Cascadia Mono", Consolas, monospace; font-variant-numeric: tabular-nums; }
+.pp-card { background: #fff; border: 1px solid #e6dcc8; border-radius: 10px; padding: 14px 16px; margin-bottom: 12px; }
+.pp-dl { display: grid; grid-template-columns: max-content 1fr; gap: 6px 14px; margin: 0; }
+.pp-dl dt { color: #7b6c52; }
+.pp-dl dd { margin: 0; word-break: break-word; }
+.pp-steps { margin: 0; padding: 0 0 0 18px; }
+.pp-steps li { padding: 3px 0; display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+.pp-steps time { color: #7b6c52; font-size: 13px; }
+.pp-qc { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.pp-qc div { background: #faf6ee; border-radius: 8px; padding: 8px 10px; }
+.pp-qc span { display: block; font-size: 12px; color: #7b6c52; }
+.pp-qc b { font-size: 20px; }
+.pp video { width: 100%; border-radius: 8px; background: #000; }
+.pp-muted { color: #8a7d66; font-size: 13px; }
+.pp-foot { text-align: center; margin-top: 18px; }

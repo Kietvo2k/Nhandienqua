@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NDQ · Mô phỏng dây chuyền sấy quả</title>
+  </head>
+  <body>
+    <canvas id="gl" aria-hidden="true"></canvas>
+    <div id="app">
+      <header class="topbar">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <div>
+            <strong>Dây chuyền sấy quả</strong>
+            <span class="muted">Mô phỏng · AI giả lập</span>
+          </div>
+        </div>
+        <div class="tb-group clock" aria-live="off">
+          <span class="tb-label">Giờ xưởng</span>
+          <output id="clock" class="mono">--:--:--</output>
+        </div>
+        <div class="tb-group now">
+          <span class="tb-label">Lô đang chạy</span>
+          <span class="now-text" id="now-batch">Chờ xe tải đầu tiên…</span>
+        </div>
+        <div class="tb-group speed-wrap">
+          <span class="tb-label" id="speed-label">Tốc độ</span>
+          <div class="speed" role="group" aria-labelledby="speed-label">
+            <button type="button" data-speed="0" aria-label="Tạm dừng" aria-pressed="false">❚❚</button>
+            <button type="button" data-speed="1" class="on" aria-pressed="true">×1</button>
+            <button type="button" data-speed="5" aria-pressed="false">×5</button>
+            <button type="button" data-speed="20" aria-pressed="false">×20</button>
+            <button type="button" data-speed="60" aria-pressed="false">×60</button>
+          </div>
+        </div>
+        <div class="tb-actions">
+          <button type="button" class="btn" id="open-batches">Lô hàng &amp; QR</button>
+          <a class="btn ghost" href="#/lab" title="Chạy model ONNX thật trên ảnh / video / webcam">Thử model</a>
+          <output class="fps mono muted" id="fps" title="Khung hình/giây">-- fps</output>
+        </div>
+      </header>
+
+      <main class="stage" id="stage" aria-label="Khung nhìn 3D nhà xưởng — kéo để xoay, cuộn để thu phóng">
+        <canvas id="stage-overlay" class="cam-overlay" aria-hidden="true"></canvas>
+        <div class="stage-hud">
+          <span id="stage-title">Toàn cảnh nhà xưởng</span>
+          <button type="button" class="btn ghost" id="back-overview" hidden>← Toàn cảnh</button>
+        </div>
+        <ol class="line-strip" id="line-strip" aria-label="Trạng thái các trạm"></ol>
+      </main>
+
+      <aside class="side" aria-label="Bảng điều khiển">
+        <section class="kpis" aria-label="Chỉ số">
+          <div class="kpi"><span class="kpi-label">Đã nhận</span><output id="k-recv" class="mono">0</output><small>quả</small></div>
+          <div class="kpi"><span class="kpi-label" title="Quả bị loại ra thùng rác">Loại bỏ</span><output id="k-rej" class="mono bad">0</output><small id="k-rej-pct">0%</small></div>
+          <div class="kpi"><span class="kpi-label">Thành phẩm</span><output id="k-bags" class="mono ok">0</output><small>túi 200 g</small></div>
+          <div class="kpi"><span class="kpi-label" title="Mẫu kiểm nghiệm đạt / đã lấy">QC đạt</span><output id="k-qc" class="mono">0/0</output><small>ISO 2859-1</small></div>
+          <div class="kpi wide"><span class="kpi-label">AI phân loại (giả lập)</span><output id="k-ai" class="mono">—</output><small id="k-ai-sub">độ chính xác</small></div>
+        </section>
+        <section class="cams-wrap" aria-labelledby="cams-title">
+          <h2 id="cams-title">Camera <span class="muted">Bấm ô để phóng to · Esc để quay lại</span></h2>
+          <div class="cam-grid" id="cams"></div>
+        </section>
+        <section class="log-wrap" aria-labelledby="log-title">
+          <h2 id="log-title">Nhật ký</h2>
+          <ol class="log" id="log" aria-live="polite"></ol>
+        </section>
+      </aside>
+    </div>
+
+    <dialog id="batches-dlg" aria-labelledby="batches-title">
+      <header><h2 id="batches-title">Lô hàng</h2><button type="button" class="btn ghost" data-close>Đóng</button></header>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Mã lô</th><th>Quả</th><th>Trạng thái</th><th class="num">Nhận / loại</th><th class="num">Túi</th><th class="num">QC đạt</th><th><span class="sr-only">Mã QR</span></th></tr></thead>
+          <tbody id="batches-body"></tbody>
+        </table>
+      </div>
+    </dialog>
+
+    <dialog id="qr-dlg" aria-labelledby="qr-title">
+      <header><h2 id="qr-title">Mã QR sản phẩm</h2><button type="button" class="btn ghost" data-close>Đóng</button></header>
+      <div class="qr-body">
+        <img id="qr-img" alt="Mã QR trang sản phẩm" width="220" height="220" />
+        <div class="qr-info">
+          <p class="mono" id="qr-serial"></p>
+          <p class="muted" id="qr-note"></p>
+          <div class="qr-actions">
+            <a id="qr-link" class="btn" target="_blank" rel="noopener">Mở trang sản phẩm</a>
+            <a id="qr-video" class="btn ghost" download hidden>Tải video lô</a>
+          </div>
+        </div>
+      </div>
+    </dialog>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

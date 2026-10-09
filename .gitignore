@@ -1,0 +1,31 @@
+# Python
+vision/.venv/
+__pycache__/
+*.pyc
+*.egg-info/
+.pytest_cache/
+# Dữ liệu và trọng số model (không commit)
+vision/data/
+vision/runs/
+*.pt
+*.onnx
+*.engine
+# Web
+web/node_modules/
+web/dist/
+# Khác
+.env
+*.log
+
+# Cache / file tạm của công cụ (giữ trong dự án)
+.cache/
+vision/weights/
+vision/tools_tmp/
+web/public/videos/
+vision/colab/*.zip
+web/public/models/
+web/public/lab-samples/
+
+# Cấu hình và ghi chú cá nhân của agent (riêng tư, không commit)
+.claude/
+.agents/
